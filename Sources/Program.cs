@@ -1,4 +1,5 @@
-﻿using SkiaSharp;
+﻿using SkiaImageTest.Sources;
+using SkiaSharp;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -14,10 +15,41 @@ namespace SkiaImageTest
         static void Main(string[] args)
         {
             Thread.Sleep(1000);
-            __DrawGfx();
+            _DrawBlurText();
+            //_DrawReflectText();
+            // __DrawGfx();
             //DrawText();
             //DrawDoubleText();
             Console.ReadKey();
+        }
+
+
+        private static void _DrawBlurText()
+        {
+            var rotated = new SKBitmap(1024, 1024);
+            using (SKCanvas canvas = new SKCanvas(rotated))
+            {
+                SkiaModifier.DrawBlurText("Hello World", rotated, canvas,SKBlurStyle.Solid,2.5f);
+            }
+            using (var filstream = File.Open("xsj02_039_13_blurText.png", FileMode.OpenOrCreate))
+            {
+                rotated.Encode(filstream, SKEncodedImageFormat.Png, 1);
+            }
+
+        }
+
+        private static void _DrawReflectText()
+        {
+            var rotated = new SKBitmap(1024, 1024);
+            using (SKCanvas canvas = new SKCanvas(rotated))
+            {
+                SkiaModifier.DrawReflectText("Hello World", rotated, canvas);
+            }
+            using (var filstream = File.Open("xsj02_039_13_reflText.png", FileMode.OpenOrCreate))
+            {
+                rotated.Encode(filstream, SKEncodedImageFormat.Png, 1);
+            }
+
         }
 
         private static void __DrawGfx()
